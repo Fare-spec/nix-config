@@ -11,7 +11,6 @@ stdenvNoCC.mkDerivation {
   src = fetchgit {
     url = "https://git.gurkan.in/gurkan/nixos-blur-plymouth.git";
     rev = "ea75b51a1f04aa914647a2929eab6bbe595bcfc0";
-    # Remplis ce hash après le 1er essai (voir étape 2)
     hash = "sha256-BSmh+Gy3yJMA4RoJ0uaQ/WsYBs+Txr6K3cAQjf+yM5Y=";
   };
 
