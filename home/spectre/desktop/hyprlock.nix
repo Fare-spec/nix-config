@@ -48,8 +48,16 @@ in
           monitor = "";
           path = currentWallpaper;
 
+          blur_size = 10;
           blur_passes = 3;
-          blur_size = 8;
+
+          brightness = 0.75;
+          contrast = 0.90;
+
+          vibrancy = 0.15;
+          vibrancy_darkness = 0.05;
+
+          noise = 0.01;
 
           color = "rgb(36, 39, 58)";
         }

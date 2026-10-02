@@ -7,7 +7,9 @@
     xwayland.enable = true;
   };
 
-  security.pam.services.hyprlock = { };
+  security.pam.services.hyprlock = {
+    fprintAuth = false;
+  };
 
   programs.nm-applet.enable = true;
 

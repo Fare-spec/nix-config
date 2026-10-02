@@ -114,8 +114,8 @@ in
         decoration = {
           rounding = 12;
 
-          active_opacity = 0.98;
-          inactive_opacity = 0.98;
+          active_opacity = 0.9;
+          inactive_opacity = 0.86;
 
           blur = {
             enabled = true;
@@ -401,7 +401,7 @@ in
         # SUPER + CTRL + L -> lock session
         {
           _args = [
-            (lua ''mainMod .. " + CTRL + L"'')
+            (lua ''" ALT + CTRL + L"'')
             (lua ''hl.dsp.exec_cmd("hyprlock-random")'')
           ];
         }

@@ -163,6 +163,25 @@
           end
         end,
       })
+
+      vim.lsp.config("nil_ls", {
+      settings = {
+        ["nil"] = {
+          formatting = {
+            command = { "nixfmt" },
+          },
+        },
+      },
+    })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*.nix",
+      callback = function()
+        vim.lsp.buf.format({
+          async = false,
+          timeout_ms = 3000,
+        })
+      end,
+    })
     '';
   };
 }
