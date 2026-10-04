@@ -8,19 +8,19 @@ let
     tweaks = [ ];
   };
 
-regreetSession = pkgs.writeShellScript "regreet-session" ''
-  export XKB_DEFAULT_LAYOUT=fr
+  regreetSession = pkgs.writeShellScript "regreet-session" ''
+    export XKB_DEFAULT_LAYOUT=fr
 
-  export XCURSOR_THEME=Bibata-Modern-Ice
-  export XCURSOR_SIZE=20
+    export XCURSOR_THEME=Bibata-Modern-Ice
+    export XCURSOR_SIZE=20
 
-  export GTK_USE_PORTAL=0
-  export GDK_DEBUG=no-portals
+    export GTK_USE_PORTAL=0
+    export GDK_DEBUG=no-portals
 
-  exec ${pkgs.dbus}/bin/dbus-run-session \
-    ${pkgs.cage}/bin/cage -s -d -- \
-    ${pkgs.regreet}/bin/regreet
-'';
+    exec ${pkgs.dbus}/bin/dbus-run-session \
+      ${pkgs.cage}/bin/cage -s -d -- \
+      ${pkgs.regreet}/bin/regreet
+  '';
 in
 {
   services.greetd = {

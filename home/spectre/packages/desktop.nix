@@ -9,5 +9,6 @@
     imv
     playerctl
     hyprpolkitagent
+    wl-clipboard
   ];
 }

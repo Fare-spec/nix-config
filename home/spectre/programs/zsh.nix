@@ -39,10 +39,10 @@
       ];
     };
     shellAliases = {
-      nbuild = "sudo nixos-rebuild build --flake ~/config/nixos-flakes#framework";
-      ndiff = "nix store diff-closures /run/current-system ~/config/nixos-flakes/result";
-      nswitch = "sudo nixos-rebuild switch --flake ~/config/nixos-flakes#framework";
-      nupdate = "cd ~/config/nixos-flakes && nix flake update";
+      nbuild = "sudo nixos-rebuild build --flake ~/nix#framework";
+      ndiff = "nix store diff-closures /run/current-system ~/nix/result";
+      nswitch = "sudo nixos-rebuild switch --flake ~/nix#framework";
+      nupdate = "cd ~/nix && nix flake update";
     };
     siteFunctions = {
       ssm = ''
@@ -92,7 +92,7 @@
 
       npreview = ''
 
-        local config="$HOME/config/nixos-flakes"
+        local config="$HOME/nix"
 
         cd "$config" || return 1
 

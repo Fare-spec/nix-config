@@ -1,6 +1,156 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 let
+  displayCycle = pkgs.writeShellApplication {
+    name = "display-cycle";
+
+    runtimeInputs = with pkgs; [
+      hyprland
+      jq
+      libnotify
+    ];
+
+    text = ''
+      laptop="eDP-1"
+      external="DP-3"
+
+      monitors="$(hyprctl -j monitors all)"
+
+      # If the Samsung isn't connected, always fall back to the laptop.
+      if ! jq -e --arg name "$external" \
+        'any(.[]; .name == $name)' <<< "$monitors" >/dev/null; then
+
+        hyprctl eval 'hl.monitor({
+          output = "eDP-1",
+          disabled = false,
+          mode = "2256x1504@60",
+          position = "0x0",
+          scale = 1,
+          mirror = ""
+        })' >/dev/null
+
+        notify-send "Displays" "Laptop only"
+        exit 0
+      fi
+
+      laptop_disabled="$(
+        jq -r --arg name "$laptop" \
+          '.[] | select(.name == $name) | .disabled' <<< "$monitors"
+      )"
+
+      external_disabled="$(
+        jq -r --arg name "$external" \
+          '.[] | select(.name == $name) | .disabled' <<< "$monitors"
+      )"
+
+      external_mirror="$(
+        jq -r --arg name "$external" \
+          '.[] | select(.name == $name) | .mirrorOf' <<< "$monitors"
+      )"
+
+      if [[ "$laptop_disabled" == "true" && "$external_disabled" == "false" ]]; then
+        current="external"
+      elif [[ "$laptop_disabled" == "false" &&
+              "$external_disabled" == "false" &&
+              "$external_mirror" == "$laptop" ]]; then
+        current="mirror"
+      elif [[ "$laptop_disabled" == "false" &&
+              "$external_disabled" == "false" ]]; then
+        current="extend"
+      else
+        current="laptop"
+      fi
+
+      case "$current" in
+        external)
+          # MIRROR
+          # 1920x1080 is supported by both displays.
+          hyprctl eval 'hl.monitor({
+            output = "eDP-1",
+            disabled = false,
+            mode = "1920x1080@60",
+            position = "0x0",
+            scale = 1,
+            mirror = ""
+          })' >/dev/null
+
+          hyprctl eval 'hl.monitor({
+            output = "DP-3",
+            disabled = false,
+            mode = "1920x1080@60",
+            position = "0x0",
+            scale = 1,
+            mirror = "eDP-1"
+          })' >/dev/null
+
+          notify-send "Displays" "Mirror"
+          ;;
+
+        mirror)
+          # EXTEND - laptop on the left, Samsung on the right.
+          hyprctl eval 'hl.monitor({
+            output = "eDP-1",
+            disabled = false,
+            mode = "2256x1504@60",
+            position = "0x0",
+            scale = 1,
+            mirror = ""
+          })' >/dev/null
+
+          hyprctl eval 'hl.monitor({
+            output = "DP-3",
+            disabled = false,
+            mode = "3840x2160@60",
+            position = "2256x0",
+            scale = 1,
+            mirror = ""
+          })' >/dev/null
+
+          notify-send "Displays" "Extended"
+          ;;
+
+        extend)
+          # LAPTOP ONLY
+          hyprctl eval 'hl.monitor({
+            output = "eDP-1",
+            disabled = false,
+            mode = "2256x1504@60",
+            position = "0x0",
+            scale = 1,
+            mirror = ""
+          })' >/dev/null
+
+          hyprctl eval 'hl.monitor({
+            output = "DP-3",
+            disabled = true
+          })' >/dev/null
+
+          notify-send "Displays" "Laptop only"
+          ;;
+
+        *)
+          # EXTERNAL ONLY
+          # Enable the Samsung before disabling the laptop so we never
+          # momentarily have zero active displays.
+          hyprctl eval 'hl.monitor({
+            output = "DP-3",
+            disabled = false,
+            mode = "3840x2160@60",
+            position = "0x0",
+            scale = 1,
+            mirror = ""
+          })' >/dev/null
+
+          hyprctl eval 'hl.monitor({
+            output = "eDP-1",
+            disabled = true
+          })' >/dev/null
+
+          notify-send "Displays" "External only"
+          ;;
+      esac
+    '';
+  };
   lua = lib.generators.mkLuaInline;
 
   workspaceKeys = [
@@ -357,25 +507,25 @@ in
             (lua ''hl.dsp.focus({ workspace = "previous_per_monitor" })'')
           ];
         }
-        # SUPER + S -> select region and screenshot
+        # SUPER + S -> select region, save screenshot, copy to clipboard
         {
           _args = [
             (lua ''mainMod .. " + S"'')
             (lua ''
               hl.dsp.exec_cmd(
-                'grim -g "$(slurp)" "$HOME/screenshot-$(date +%Y%m%d-%H%M%S).png"'
+                'mkdir -p "$HOME/Pictures/Screenshots"; file="$HOME/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"; grim -g "$(slurp)" - | tee "$file" | wl-copy --type image/png'
               )
             '')
           ];
         }
 
-        # SUPER + SHIFT + S -> screenshot entire screen
+        # SUPER + SHIFT + S -> screenshot entire screen, save, copy to clipboard
         {
           _args = [
             (lua ''mainMod .. " + SHIFT + S"'')
             (lua ''
               hl.dsp.exec_cmd(
-                'grim "$HOME/screenshot-$(date +%Y%m%d-%H%M%S).png"'
+                'mkdir -p "$HOME/Pictures/Screenshots"; file="$HOME/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"; grim - | tee "$file" | wl-copy --type image/png'
               )
             '')
           ];
@@ -438,6 +588,16 @@ in
               hl.dsp.exec_cmd(
                 "cliphist list | rofi -dmenu -display-columns 2 | cliphist decode | wl-copy"
               )
+            '')
+          ];
+        }
+
+        # SUPER + P -> cycle display modes
+        {
+          _args = [
+            (lua ''mainMod .. " + P"'')
+            (lua ''
+              hl.dsp.exec_cmd("${displayCycle}/bin/display-cycle")
             '')
           ];
         }

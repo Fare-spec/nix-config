@@ -6,10 +6,9 @@ in
 {
   programs.rofi = {
     enable = true;
-settings={
-    terminal = "kitty";
-    font = "0xProto Nerd Font 14";
-
+    settings = {
+      terminal = "kitty";
+      font = "0xProto Nerd Font 14";
 
       modi = "drun,run";
       show-icons = true;

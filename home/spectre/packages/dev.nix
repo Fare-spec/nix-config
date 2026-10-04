@@ -37,6 +37,7 @@
 
     # Other languages/toolchains
     lua
+    nil
 
     # General development tools
     geckodriver
