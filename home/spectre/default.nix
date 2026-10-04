@@ -32,6 +32,7 @@
     ./services/polkit.nix
     ./services/syncthing.nix
     ./services/clipboard.nix
+    ./services/keyring.nix
   ];
   home.stateVersion = "26.05";
 }

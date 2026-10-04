@@ -88,4 +88,9 @@ in
 
   # Login is password based.
   security.pam.services.greetd.fprintAuth = false;
+
+  # Gnome keyring for apps like signal or proton auth.
+  services.gnome.gnome-keyring.enable = true;
+
+  security.pam.services.greetd.enableGnomeKeyring = true;
 }
