@@ -525,7 +525,7 @@ in
             (lua ''mainMod .. " + SHIFT + S"'')
             (lua ''
               hl.dsp.exec_cmd(
-                'mkdir -p "$HOME/Pictures/Screenshots"; file="$HOME/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"; grim - | tee "$file" | wl-copy --type image/png'
+                'mkdir -p "$HOME/Pictures/Screenshots"; file="$HOME/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"; grim - | tee "$file" | wl-copy --type image/png && notify-send "Screenshot saved and copied"'
               )
             '')
           ];

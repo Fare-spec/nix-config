@@ -15,6 +15,9 @@
 
     settings = {
       remember_window_position = "yes";
+      background_opacity = 0.8;
+      selection_foreground = "#CAD3F5";
+      selection_background = "#939AB7";
 
       window_margin_width = 5;
       placement_strategy = "center";
