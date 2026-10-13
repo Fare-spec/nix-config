@@ -11,6 +11,7 @@
     ))
     black
     uv
+    pyright
 
     # C / C++ / low-level
     bc

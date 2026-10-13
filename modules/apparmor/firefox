@@ -1,0 +1,11 @@
+#include <tunables/global>
+
+profile firefox /nix/store/*-firefox-*/lib/firefox/firefox flags=(default_allow) {
+    # Keep Firefox subprocesses under the same profile
+    /nix/store/*-firefox-*/lib/firefox/firefox ix,
+    /nix/store/*-firefox-unwrapped-*/lib/firefox/{crashhelper,gfxtest} ix,
+
+    # Block the KeePass directory
+    audit deny /home/spectre/keepass/ r,
+    audit deny /home/spectre/keepass/** rwkl,
+}
