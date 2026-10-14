@@ -65,5 +65,8 @@
 
     # Document/image tools
     ghostscript
+
+    # Framework laptop tools
+    framework-tool
   ];
 }

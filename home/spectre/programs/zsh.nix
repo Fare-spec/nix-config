@@ -58,6 +58,14 @@
 
         [ -n "$host" ] && ssh "$host"
       '';
+      kb = ''
+        if [[ ! "$1" =~ ^([0-9]|[1-9][0-9]|100)$ ]]; then
+          echo "Usage: kb <0-100>"
+          return 1
+        fi
+
+        sudo framework_tool --kblight "$1"
+      '';
 
       key = ''
         watch -n 1 \
