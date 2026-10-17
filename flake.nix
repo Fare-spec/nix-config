@@ -13,6 +13,10 @@
       url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -33,6 +37,7 @@
           ./hosts/framework
 
           home-manager.nixosModules.home-manager
+          inputs.lanzaboote.nixosModules.lanzaboote
 
           {
             home-manager.useGlobalPkgs = true;

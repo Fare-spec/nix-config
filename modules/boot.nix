@@ -1,19 +1,29 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
   nixosBlurTheme = pkgs.callPackage ../plymouth/nixos-blur-theme.nix { };
 in
 {
+  environment.systemPackages = with pkgs; [
+    sbctl
+  ];
 
-  #  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.extraModprobeConfig = "
+  options mt7921e disable_aspm=1
+  ";
 
-  boot.loader.systemd-boot = {
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+
+  boot.lanzaboote = {
     enable = true;
-    configurationLimit = 10;
-    editor = false;
-    consoleMode = "auto";
+    pkiBundle = "/var/lib/sbctl";
   };
+
+  boot.loader.systemd-boot.configurationLimit = 10;
+  boot.loader.systemd-boot.editor = false;
+  boot.loader.systemd-boot.consoleMode = "auto";
 
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.timeout = 3;
