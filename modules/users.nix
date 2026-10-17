@@ -11,7 +11,6 @@
     extraGroups = [
       "networkmanager"
       "wheel"
-      "docker"
       "libvirtd"
       "kvm"
       "video"
