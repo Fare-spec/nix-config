@@ -8,8 +8,8 @@ in
     sbctl
   ];
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelPackages = pkgs.linuxPackages_6_18;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_6_18;
   boot.extraModprobeConfig = "
   options mt7921e disable_aspm=1
   ";

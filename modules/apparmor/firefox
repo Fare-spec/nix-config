@@ -1,6 +1,7 @@
 #include <tunables/global>
 
-profile firefox /nix/store/*-firefox-*/lib/firefox/firefox flags=(default_allow) {
+profile firefox /nix/store/*-firefox-*/lib/firefox/firefox flags=(attach_disconnected) {
+    allow all,
     # Keep Firefox subprocesses under the same profile
     /nix/store/*-firefox-*/lib/firefox/firefox ix,
     /nix/store/*-firefox-unwrapped-*/lib/firefox/{crashhelper,gfxtest} ix,

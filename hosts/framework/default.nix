@@ -35,6 +35,7 @@
   ];
 
   networking.hostName = "framework";
+  hardware.framework.enableKmod = false; # Fix for a recent problem that made certificate require an extension I believe ? patch is on its way but the branch hasn't finished to build yet.
 
   nix.settings.experimental-features = [
     "nix-command"
