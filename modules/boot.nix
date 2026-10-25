@@ -14,6 +14,8 @@ in
   options mt7921e disable_aspm=1
   ";
 
+  #  options mt7921_common disable_clc=1
+
   boot.loader.systemd-boot.enable = lib.mkForce false;
 
   boot.lanzaboote = {
@@ -37,7 +39,6 @@ in
   };
 
   boot.consoleLogLevel = 3;
-  boot.initrd.verbose = false;
 
   boot.resumeDevice = "/dev/disk/by-uuid/deed406f-9df5-4bda-8a1b-4f99984d10f6";
 
