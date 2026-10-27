@@ -42,6 +42,8 @@
       nbuild = "sudo nixos-rebuild build --flake ~/nix#framework";
       ndiff = "nix store diff-closures /run/current-system ~/nix/result";
       nswitch = "sudo nixos-rebuild switch --flake ~/nix#framework";
+      nboot = "sudo nixos-rebuild boot --flake ~/nix#framework";
+      ntest = "sudo nixos-rebuild test --flake ~/nix#framework";
       nupdate = "cd ~/nix && nix flake update";
     };
     siteFunctions = {

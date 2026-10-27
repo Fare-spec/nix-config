@@ -9,12 +9,10 @@ in
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  #boot.kernelPackages = pkgs.linuxPackages_6_18;
   boot.extraModprobeConfig = "
   options mt7921e disable_aspm=1
+  options mt7921_common disable_clc=1
   ";
-
-  #  options mt7921_common disable_clc=1
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
 
