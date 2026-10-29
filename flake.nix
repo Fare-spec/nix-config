@@ -8,6 +8,7 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs"; # Makes it follow the nixpkgs channel so avoid another revision pull
     };
+    nixpkgs-kernel.url = "github:NixOS/nixpkgs/e103cdf5df7e47c1a47ebe410196c9ec1fff351c";
 
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware";

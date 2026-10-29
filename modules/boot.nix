@@ -1,18 +1,28 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 
 let
   nixosBlurTheme = pkgs.callPackage ../plymouth/nixos-blur-theme.nix { };
+  oldPkgs = import inputs.nixpkgs-kernel {
+    system = pkgs.stdenv.hostPlatform.system;
+  };
+
 in
 {
   environment.systemPackages = with pkgs; [
     sbctl
   ];
+  boot.kernelPackages = oldPkgs.linuxPackages_latest;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModprobeConfig = "
-  options mt7921e disable_aspm=1
-  options mt7921_common disable_clc=1
-  ";
+  #boot.extraModprobeConfig = "
+  #options mt7921e disable_aspm=1
+  #options mt7921_common disable_clc=1
+  #";
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
 

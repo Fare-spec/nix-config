@@ -2,6 +2,9 @@
 
 {
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.problems.handlers = {
+    libguestfs.broken = "warn";
+  };
 
   # Temporary workaround for an unstable systemd-boot regression:
   # copy-extra-files is being created as 0444 instead of executable.
