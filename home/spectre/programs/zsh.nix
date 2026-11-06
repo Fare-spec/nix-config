@@ -45,6 +45,7 @@
       nboot = "sudo nixos-rebuild boot --flake ~/nix#framework";
       ntest = "sudo nixos-rebuild test --flake ~/nix#framework";
       nupdate = "cd ~/nix && nix flake update";
+      ndev = "nix develop -c zsh";
     };
     siteFunctions = {
       ssm = ''

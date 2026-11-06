@@ -7,17 +7,13 @@
 
 let
   nixosBlurTheme = pkgs.callPackage ../plymouth/nixos-blur-theme.nix { };
-  oldPkgs = import inputs.nixpkgs-kernel {
-    system = pkgs.stdenv.hostPlatform.system;
-  };
 
 in
 {
   environment.systemPackages = with pkgs; [
     sbctl
   ];
-  boot.kernelPackages = oldPkgs.linuxPackages_latest;
-  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   #boot.extraModprobeConfig = "
   #options mt7921e disable_aspm=1
