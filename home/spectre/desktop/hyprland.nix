@@ -433,7 +433,7 @@ in
         # Physical * key: wev 51 -> Hyprland code:59
         {
           _args = [
-            "CTRL + code:59"
+            "CTRL + code:51"
             (lua ''hl.dsp.exec_cmd("playerctl next")'')
           ];
         }
@@ -441,7 +441,7 @@ in
         # CTRL + SHIFT + * -> previous track
         {
           _args = [
-            "CTRL + SHIFT + code:59"
+            "CTRL + SHIFT + code:51"
             (lua ''hl.dsp.exec_cmd("playerctl previous")'')
           ];
         }

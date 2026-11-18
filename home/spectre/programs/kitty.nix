@@ -15,6 +15,7 @@
 
     settings = {
       remember_window_position = "yes";
+      remember_window_size = "no";
       background_opacity = 0.8;
       selection_foreground = "#CAD3F5";
       selection_background = "#939AB7";
