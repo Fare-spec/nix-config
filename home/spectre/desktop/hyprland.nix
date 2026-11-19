@@ -507,13 +507,13 @@ in
             (lua ''hl.dsp.focus({ workspace = "previous_per_monitor" })'')
           ];
         }
-        # SUPER + S -> select region, save screenshot, copy to clipboard
+        # SUPER + S -> select region, save screenshot, copy to clipboard and notify
         {
           _args = [
             (lua ''mainMod .. " + S"'')
             (lua ''
               hl.dsp.exec_cmd(
-                'mkdir -p "$HOME/Pictures/Screenshots"; file="$HOME/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"; grim -g "$(slurp)" - | tee "$file" | wl-copy --type image/png'
+                'mkdir -p "$HOME/Pictures/Screenshots"; geometry="$(slurp)" || exit 0; file="$HOME/Pictures/Screenshots/screenshot-$(date +%Y%m%d-%H%M%S).png"; grim -g "$geometry" "$file" && wl-copy --type image/png < "$file" && notify-send "Screenshot" "Saved and copied to clipboard"'
               )
             '')
           ];
@@ -591,6 +591,17 @@ in
             '')
           ];
         }
+        # SUPER + SHIFT + V -> clear clipboard history
+        {
+          _args = [
+            (lua ''mainMod .. " + SHIFT + V"'')
+            (lua ''
+              hl.dsp.exec_cmd(
+                'cliphist wipe && wl-copy --clear && notify-send "Clipboard" "History cleared"'
+              )
+            '')
+          ];
+        }
 
         # SUPER + P -> cycle display modes
         {
@@ -599,6 +610,13 @@ in
             (lua ''
               hl.dsp.exec_cmd("${displayCycle}/bin/display-cycle")
             '')
+          ];
+        }
+        # SUPER + N -> restore latest notification
+        {
+          _args = [
+            (lua ''mainMod .. " + N"'')
+            (lua ''hl.dsp.exec_cmd("makoctl restore")'')
           ];
         }
       ];
