@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.waybar = {
@@ -68,6 +68,14 @@
           states = {
             warning = 30;
             critical = 15;
+            very_critical = 5;
+            cooked = 2;
+            events = {
+              on-discharging-warning = "${pkgs.libnotify}/bin/notify-send -u normal 'Low battery' 'Battery is at or below 30%.'";
+              on-discharging-critical = "${pkgs.libnotify}/bin/notify-send -u critical 'Battery critical' 'Battery is at or below 15%.'";
+              on-discharging-very_critical = "${pkgs.libnotify}/bin/notify-send -u critical 'Battery critical' 'Battery is at or below 5%.'";
+              on-discharging-cooked = "${pkgs.libnotify}/bin/notify-send -u critical 'Battery critical' 'Battery is at or below 5%.'";
+            };
           };
 
           format = "{icon} {capacity}%";

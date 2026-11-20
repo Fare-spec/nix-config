@@ -29,6 +29,10 @@
       default-timeout = 5000;
 
       progress-color = "over #c6a0f6";
+
+      "mode=do-not-disturb" = {
+        invisible = true;
+      };
     };
   };
 }

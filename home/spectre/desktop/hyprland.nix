@@ -618,7 +618,16 @@ in
             (lua ''mainMod .. " + N"'')
             (lua ''hl.dsp.exec_cmd("makoctl restore")'')
           ];
+
         }
+        {
+          # SUPER + SHIFT + N -> Do not disturb mode
+          _args = [
+            (lua ''mainMod .. " + SHIFT + N"'')
+            (lua ''hl.dsp.exec_cmd("${pkgs.mako}/bin/makoctl mode -t do-not-disturb")'')
+          ];
+        }
+
       ];
     };
   };
