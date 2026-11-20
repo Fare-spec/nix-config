@@ -17,8 +17,13 @@
         ];
 
         modules-center = [
-          "clock"
+          "group/clock-dnd"
         ];
+
+        "group/clock-dnd" = {
+          orientation = "horizontal";
+          modules = [ "clock" "custom/dnd" ];
+        };
 
         modules-right = [
           "pulseaudio"
@@ -28,6 +33,21 @@
           "power-profiles-daemon"
           "tray"
         ];
+        "custom/dnd" = {
+          exec = ''
+            if ${pkgs.mako}/bin/makoctl mode | ${pkgs.gnugrep}/bin/grep -qx do-not-disturb; then
+              echo ""
+            else
+              echo ""
+            fi
+          '';
+          interval = 2;
+          format = "{text}";
+          align = 0.5;
+          hide-empty-text = true;
+          tooltip-format = "Do Not Disturb enabled — click to disable";
+          on-click = "${pkgs.mako}/bin/makoctl mode -r do-not-disturb";
+        };
 
         "hyprland/workspaces" = {
           format = "{name}";
@@ -148,11 +168,17 @@
         color: #24273a;
       }
 
-      #clock {
+      #clock-dnd {
         padding: 0 14px;
         margin: 4px 0;
         border-radius: 10px;
         background: #363a4f;
+      }
+
+      #clock {
+        padding: 0;
+        margin: 0;
+        background: transparent;
         color: #c6a0f6;
         font-weight: bold;
       }
@@ -179,6 +205,17 @@
 
       #network.disconnected {
         color: #ed8796;
+      }
+
+      #custom-dnd {
+        font-family: "0xProto Nerd Font Propo";
+        font-size: 13px;
+        font-weight: normal;
+        min-width: 20px;
+        color: #eed49f;
+        background: transparent;
+        padding: 0;
+        margin: 0 0 0 6px;
       }
     '';
   };

@@ -500,6 +500,28 @@ in
           ];
         }
 
+        # SUPER + Tab -> toggle the last two workspaces on this monitor
+        {
+          _args = [
+            (lua ''mainMod .. " + Tab"'')
+            (lua ''hl.dsp.focus({ workspace = "previous_per_monitor" })'')
+          ];
+        }
+
+        # SUPER + Left/Right -> previous/next numbered workspace
+        {
+          _args = [
+            (lua ''mainMod .. " + Left"'')
+            (lua ''hl.dsp.focus({ workspace = "-1" })'')
+          ];
+        }
+        {
+          _args = [
+            (lua ''mainMod .. " + Right"'')
+            (lua ''hl.dsp.focus({ workspace = "+1" })'')
+          ];
+        }
+
         # ALT + ² -> previous workspace on this monitor
         {
           _args = [
