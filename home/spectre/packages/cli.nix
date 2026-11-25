@@ -2,6 +2,11 @@
 
 {
   home.packages = with pkgs; [
+    # AI
+
+    codex
+    claude-code
+
     # Archives / files
     _7zz
     file
